@@ -7,7 +7,7 @@
           wonders of the natural world! Our platform is a sanctuary for those who find solace, inspiration, and
           excitement in the beauty of our planet. </p>
       </section>
-      <section className="text-2xl text-center mt-24 p-4 bg-lime-600 ">
+      <section className="text-2xl text-center p-4 bg-lime-600 ">
         <p>Discover, Explore, Connect: Unveiling Nature&apos;s Mysteries; Inspiration in Every Sunrise: Embrace the
           Beauty of the Wild</p>
       </section>

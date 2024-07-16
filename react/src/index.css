@@ -6,3 +6,9 @@ body {
   background-color: #c98049;
   color: white;
 }
+
+.BackImg {
+  background-image: url('/src/assets/hero-img.jpg');
+  background-position: center;
+  background-size: cover
+}

@@ -1,5 +1,5 @@
 .BackImg {
-  background-image: url('/src/assets/hero-img.jpg');
+  background-image: url('http://localhost:5173/hero-img.jpg');
   background-position: center;
   background-size: cover
 }
