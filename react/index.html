@@ -4,6 +4,35 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      
+    
+      function composeScript () {
+        return new Promise((resolve, reject) => {
+          window.compose = window.compose || {}
+          window.compose.customRedirect = url => {
+            history.pushState({}, '', url)
+          }
+    
+          const script = document.createElement('script')
+          script.src = 'https://compose-scripts.s3.amazonaws.com/660d915c8917f7fc54a4d0f9/660d9ab08917f7fc54a4d225.js'
+    
+          script.onload = () => {
+            console.log('%cCompose script loaded', 'color: #1e90ff; font-weight: bold;')
+            resolve()
+          }
+    
+          script.onerror = (err) => {
+            console.log(err);
+            console.log('%cCompose script failed to load', 'color: #ff0000; font-weight: bold;')
+          }
+    
+          document.head.appendChild(script)
+        })
+      }
+
+      composeScript();
+    </script>
     <title>Earth Echoes</title>
   </head>
   <body>
