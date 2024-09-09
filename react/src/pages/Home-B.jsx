@@ -1,5 +1,4 @@
-function AppB() {
-
+export default function HomeB() {
 
   return (
     <main>
@@ -16,5 +15,3 @@ function AppB() {
     </main>
   )
 }
-
-export default AppB

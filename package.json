@@ -1,0 +1,14 @@
+{
+  "name": "snippet-repos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "handlebars": "cd handlebars && npm run dev",
+    "react": "cd react && npm run dev",
+    "vue": "cd vue && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

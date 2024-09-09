@@ -1,5 +1,4 @@
-function App() {
-
+export default function Home() {
 
   return (
     <main>
@@ -21,5 +20,3 @@ function App() {
     </main>
   )
 }
-
-export default App
