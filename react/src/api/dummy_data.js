@@ -1,7 +1,4 @@
 
-
-
-
 export const dummy_products = new Promise((resolve) => {
   resolve({
     success: true,
@@ -37,7 +34,7 @@ export const dummy_products = new Promise((resolve) => {
         "id": 4,
         "itemName": "Master Ball",
         "itemDescription": "The best BALL with the ultimate level of performance. It will catch any wild POKéMON without fail.",
-        "itemPrice": 0,
+        "itemPrice": 1800,
         "imageUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png",
         "quantity": "1",
         "isSpecialItem": true

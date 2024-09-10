@@ -3,7 +3,7 @@ import App from './App';
 import Home from './pages/Home';
 import HomeB from './pages/Home-B';
 import Products from './pages/Products';
-import { getProductDetails, getProducts } from './api/products.api';
+import { getProductDetails, getProducts, getTenProducts } from './api/products.api';
 import PDP from './pages/PDP';
 
 const router = createBrowserRouter(
@@ -12,10 +12,18 @@ const router = createBrowserRouter(
       <Route
         index
         element={< Home />}
+        loader={() => {
+          const products = getTenProducts()
+          return products
+        }}
       />
       <Route
         path="/home"
         element={< HomeB />}
+        loader={() => {
+          const products = getTenProducts()
+          return products
+        }}
       />
       <Route
         path="/products"
