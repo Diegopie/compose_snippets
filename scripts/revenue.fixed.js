@@ -8,7 +8,7 @@ import { getRandomProduct } from "./utils/data/products.data.js";
     const { browser, context, page, location } = await createRandomBrowser();
     const product = getRandomProduct();
 
-    await page.goto(process.env.SITE_URL + "/qa");
+    await page.goto(process.env.SITE_URL + "qa");
 
     // const willConvert = Math.random() < (1 / 3); // 1 in 3 chance
     const willConvert = true; // 1 in 3 chance
@@ -28,7 +28,7 @@ import { getRandomProduct } from "./utils/data/products.data.js";
         },
         { currencyCode: location.currencyCode, productValue: product.price }
       );
-      await page.getByTestId("revenue")
+      await page.getByTestId("revenue").click();
       await page.pause();
     } else {
       console.log("Not a conversion");

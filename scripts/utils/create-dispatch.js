@@ -6,7 +6,7 @@
  */
 export function createDispatch(
   currency = "USD",
-  value = 45.0,
+  value = 200.0,
   goal = "revenue"
 ) {
   if (goal === "revenue") {

@@ -16,13 +16,13 @@ export default function QA() {
         <article className="product-card w-60 text-center bg-cyan-500 py-4 px-14 rounded-md">
             <img src="https://picsum.photos/200" className="h-52" />
             <h2 className="text-3xl">Simulate Custom 01</h2>
-            <button data-testid="revenue">Click Me</button>
+            <button data-testid="custom_goal_01">Click Me</button>
         </article>
         {/* Custom 02 */}
         <article className="product-card w-60 text-center bg-cyan-500 py-4 px-14 rounded-md">
             <img src="https://picsum.photos/200" className="h-52" />
             <h2 className="text-3xl">Simulate Custom 02</h2>
-            <button data-testid="revenue">Click Me</button>
+            <button data-testid="custom_goal_02">Click Me</button>
         </article>
       </section>
     </main>
