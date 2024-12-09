@@ -1,5 +1,3 @@
-
-// import { LocationType } from '../utils.types.js'
 /**
  * @typedef {Object} LocationType
  * @property {string} name - The name of the location, including city and country.

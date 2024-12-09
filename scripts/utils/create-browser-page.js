@@ -1,5 +1,5 @@
 import locations from "./data/location.data.js";
-import {getRandomDevice} from "./data/user-agent-devices.data.js";
+import { getRandomDevice } from "./data/user-agent-devices.data.js";
 
 
 /**

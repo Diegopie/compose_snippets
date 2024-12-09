@@ -6,6 +6,7 @@
   "scripts": {
     "handlebars": "cd handlebars && npm run dev",
     "react": "cd react && npm run dev",
+    "react:init": "cd react && npm i",
     "vue": "cd vue && npm run dev"
   },
   "keywords": [],
