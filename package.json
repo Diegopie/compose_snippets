@@ -2,6 +2,7 @@
   "name": "snippet-repos",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "handlebars": "cd handlebars && npm run dev",
     "react": "cd react && npm run dev",
@@ -10,5 +11,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.48.2",
+    "@types/node": "^22.9.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
 }

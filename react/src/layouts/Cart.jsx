@@ -48,7 +48,20 @@ export const Cart = () => {
 
           <footer className="text-white py-6 bottom-0 w-full mb-8">
             <p className='text-xl'>Total: <span>{moneyFormatter(cartTotal)}</span></p>
-            <button className='btn-primary text-2xl mt-6'>Checkout</button>
+            <button
+              className='btn-primary text-2xl mt-6'
+              id='checkout-button'
+              onClick={() => {
+                window.compose.dispatchEvent(
+                  new CustomEvent('goal:revenue', {
+                    detail: {
+                      value: 45.0,
+                      currency: 'USD'
+                    }
+                  })
+                );
+              }}
+            >Checkout</button>
           </footer>
         </div>
 

@@ -6,7 +6,7 @@ export default function ProductCard({product}) {
   const { id, itemName, itemPrice, imageUrl } = product;
 
   return (
-    <article className="w-60 text-center bg-cyan-500 py-4 px-14 rounded-md">
+    <article className="product-card w-60 text-center bg-cyan-500 py-4 px-14 rounded-md">
       <Link to={`/product/${id}`}>
         <img src={imageUrl} className="h-52" />
         <h2 className="text-3xl">{itemName}</h2>
