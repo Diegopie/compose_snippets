@@ -1,40 +1,161 @@
 import "dotenv/config";
+import inquirer from "inquirer";
 import createRandomBrowser from "./utils/create-browser-page.js";
-import { createDispatch } from "./utils/create-dispatch.js";
 import { getRandomProduct } from "./utils/data/products.data.js";
+import pLimit from "p-limit";
 
-(async () => {
-  for (let i = 1; i <= 180; i++) {
-    const { browser, context, page, location } = await createRandomBrowser();
-    const product = getRandomProduct();
+const prompts = {
+  useCustomGoals: {
+    type: "confirm",
+    name: "useCustomGoals",
+    message:
+      "Do you want to simulate custom goals? Revenue is always simulated",
+    default: false,
+  },
+  customGoalsList: {
+    type: "input",
+    name: "customGoalsList",
+    message: "Enter your custom goals in a comma separated list?",
+    default: "custom_goal_01, custom_goal_02",
+    filter: (input) => {
+      /**
+       * @type {string[]}
+       */
+      const newList = input.split(", ");
+      newList.unshift("revenue");
+      return newList;
+    },
+  },
+  testedUsers: {
+    type: "number",
+    name: "testedUsers",
+    default: 800,
+    message:
+      "How many tested users do you want to simulate? (At least 800 is recommended for billing tests)",
+  },
+  confirm: {
+    type: "confirm",
+    name: "confirm",
+    message: "Does this look correct?",
+    default: false,
+  },
+  runAgain: {
+    type: "confirm",
+    name: "runAgain",
+    message: "Would you like to run this again?",
+    default: false,
+  },
+};
 
-    await page.goto(process.env.SITE_URL + "qa");
+/**
+ * @param {number} testedUsers
+ * @param {string[]} customGoalsList
+ * @returns {function(): void}
+ */
+const simulateUsers = async (
+  testedUsers = 10,
+  customGoalsList = ["revenue", "custom_goal_01", "custom_goal_02"]
+) => {
+  console.log(`Simulating ${testedUsers} testedUsers`);
+  console.time("Simulation");
+  const limit = pLimit(50);
+  try {
+    await Promise.all(
+      Array.from({ length: testedUsers }).map(() =>
+        limit(async () => {
+          const { browser, browserName, context, page, location } =
+            await createRandomBrowser();
+          const product = getRandomProduct();
+          await page.goto(process.env.SITE_URL, { waitUntil: "networkidle" });
 
-    // const willConvert = Math.random() < (1 / 3); // 1 in 3 chance
-    const willConvert = true; // 1 in 3 chance
+          try {
+            await Promise.all(
+              customGoalsList.map(async (goal) => {
+                console.log(`Simulating: ${browserName} in ${location.name}`);
+                const willConvert = Math.random() > 1 / 3; // 1 in 3 chance
+                if (willConvert) {
+                  console.log("Conversion:", goal);
 
-    if (willConvert) {
-      console.log("Conversion");
+                  await page.evaluate(
+                    async ({ currency, value, goal }) => {
+                      if (goal === "revenue") {
+                        window.compose.dispatchEvent(
+                          new CustomEvent(`goal:${goal}`, {
+                            detail: {
+                              value: value,
+                              currency: `${currency}`,
+                            },
+                          })
+                        );
+                        console.log("ran event");
+                      } else {
+                        window.compose.dispatchEvent(
+                          new CustomEvent(`goal:${goal}`)
+                        );
+                      }
+                    },
+                    {
+                      currency: location.currencyCode,
+                      value: product.price,
+                      goal: goal,
+                    }
+                  );
 
-      await page.exposeFunction("createDispatch", createDispatch);
-
-      await page.evaluate(
-        ({ currencyCode, productValue }) => {
-          console.log(currencyCode, productValue);
-          const button = document.querySelector("#checkout-button");
-          button.onclick = () => {
-            window.createDispatch(currencyCode, productValue);
-          };
-        },
-        { currencyCode: location.currencyCode, productValue: product.price }
-      );
-      await page.getByTestId("revenue").click();
-      await page.pause();
-    } else {
-      console.log("Not a conversion");
-    }
-    await page.pause();
-    await context.close();
-    await browser.close();
+                  await page.pause();
+                } else {
+                  console.log("Not a Conversion: ", goal);
+                }
+              })
+            );
+          } catch (error) {
+            console.error(`Error on ${browserName}: goal ${goal}`, error);
+          } finally {
+            await page.pause();
+            await context.close();
+            await browser.close();
+          }
+        })
+      )
+    );
+  } catch (error) {
+    console.error("Error on concurrency limiting: ", error);
   }
-})();
+
+  console.timeEnd("Simulation");
+};
+
+console.log = function () {};
+
+// If script is run in PW Debug, just run playwright
+if (process.env.PWDEBUG) {
+  simulateUsers();
+  // process.exit(0);
+} else {
+  main();
+}
+
+if (process.env.LOGGING === "true") {
+  console.log = (...args) => process.stdout.write(args.join(" ") + "\n");
+}
+
+async function main() {
+  /**
+   * @type { boolean }
+   */
+  const { useCustomGoals } = await inquirer.prompt(prompts.useCustomGoals);
+  console.log(useCustomGoals);
+  /**
+   * @type {string[]}
+   */
+  let customGoalsList = ["revenue"];
+  if (useCustomGoals) {
+    const customGoalsListUser = await inquirer.prompt(prompts.customGoalsList);
+    customGoalsList = customGoalsListUser.customGoalsList;
+  }
+  /**
+   * @type {number}
+   */
+  const { testedUsers } = await inquirer.prompt(prompts.testedUsers);
+  console.log(testedUsers, customGoalsList);
+  simulateUsers(testedUsers, customGoalsList);
+}

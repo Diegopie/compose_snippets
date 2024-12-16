@@ -1,11 +1,11 @@
 import locations from "./data/location.data.js";
 import { getRandomDevice } from "./data/user-agent-devices.data.js";
 
-
 /**
  * Represents a random browser simulation environment.
  * @typedef {Object} BrowserSimulation
  * @property {import('@playwright/test').Browser} browser
+ * @property {string} browserName
  * @property {import('@playwright/test').BrowserContext} context
  * @property {import('@playwright/test').Page} page
  * @property {LocationType} location
@@ -22,8 +22,6 @@ async function createRandomBrowser() {
   const randomLocation =
     locations[Math.floor(Math.random() * locations.length)];
 
-  console.log(`Simulating: ${randomDevice.name} in ${randomLocation.name}`);
-
   const browser = await randomDevice.browserType.launch();
   const context = await browser.newContext({
     ...randomDevice.options,
@@ -37,7 +35,7 @@ async function createRandomBrowser() {
 
   const page = await context.newPage();
 
-  return { browser, context, page, location: randomLocation };
+  return { browser, browserName: randomDevice.name, context, page, location: randomLocation };
 }
 
 export default createRandomBrowser;

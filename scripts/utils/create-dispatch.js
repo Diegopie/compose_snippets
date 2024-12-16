@@ -10,7 +10,7 @@ export function createDispatch(
   goal = "revenue"
 ) {
   if (goal === "revenue") {
-    const newEvent = () => {
+    const newEvent = function() {
       window.compose.dispatchEvent(
         new CustomEvent(`goal:${goal}`, {
           detail: {
@@ -20,14 +20,13 @@ export function createDispatch(
         })
       );
     };
+    console.log(newEvent);
 
     return newEvent;
   }
 
   const newEvent = () => {
-    window.compose.dispatchEvent(
-      new CustomEvent(`goal:${goal}`)
-    );
+    window.compose.dispatchEvent(new CustomEvent(`goal:${goal}`));
   };
 
   return newEvent;

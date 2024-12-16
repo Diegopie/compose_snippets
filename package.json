@@ -18,6 +18,10 @@
     "@types/node": "^22.9.0"
   },
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "inquirer": "^12.2.0",
+    "install": "^0.13.0",
+    "npm": "^10.9.2",
+    "p-limit": "^6.1.0"
   }
 }
