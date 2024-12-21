@@ -3,6 +3,7 @@ import inquirer from "inquirer";
 import createRandomBrowser from "./utils/create-browser-page.js";
 import { getRandomProduct } from "./utils/data/products.data.js";
 import pLimit from "p-limit";
+import { manualDelay } from "./utils/helper.js";
 
 const prompts = {
   useCustomGoals: {
@@ -54,11 +55,11 @@ const prompts = {
  */
 const simulateUsers = async (
   testedUsers = 1,
-  customGoalsList = ["revenue", "button_clicked"]
+  customGoalsList = ["engagement"]
 ) => {
   console.log(`Simulating ${testedUsers} testedUsers`);
   console.time("Simulation");
-  const limit = pLimit(20);
+  const limit = pLimit(50);
   try {
     await Promise.all(
       Array.from({ length: testedUsers }).map(() =>
@@ -66,7 +67,8 @@ const simulateUsers = async (
           const { browser, browserName, context, page, location } =
             await createRandomBrowser();
           const product = getRandomProduct();
-          await page.goto(process.env.SITE_URL + '/product/1', { waitUntil: "networkidle" });
+          await page.goto(process.env.SITE_URL, { waitUntil: "networkidle" });
+          await manualDelay(800)
 
           try {
             await Promise.all(
@@ -76,30 +78,7 @@ const simulateUsers = async (
                 if (willConvert) {
                   console.log("Conversion:", goal);
 
-                  await page.evaluate(
-                    async ({ currency, value, goal }) => {
-                      if (goal === "revenue") {
-                        window.compose.dispatchEvent(
-                          new CustomEvent(`goal:${goal}`, {
-                            detail: {
-                              value: value,
-                              currency: `${currency}`,
-                            },
-                          })
-                        );
-                        console.log("ran event");
-                      } else {
-                        window.compose.dispatchEvent(
-                          new CustomEvent(`goal:${goal}`)
-                        );
-                      }
-                    },
-                    {
-                      currency: location.currencyCode,
-                      value: product.price,
-                      goal: goal,
-                    }
-                  );
+                  await page.locator('.product-card a').first().click()
 
                   await page.pause();
                 } else {
@@ -147,7 +126,7 @@ async function main() {
   /**
    * @type {string[]}
    */
-  let customGoalsList = ["revenue"];
+  let customGoalsList = ["engagement"];
   if (useCustomGoals) {
     const customGoalsListUser = await inquirer.prompt(prompts.customGoalsList);
     customGoalsList = customGoalsListUser.customGoalsList;
