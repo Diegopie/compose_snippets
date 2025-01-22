@@ -1,9 +1,6 @@
-import { useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 
 export default function QA() {
-
-
 
   return (
     <main className="px-32 mb-12">
@@ -19,14 +16,7 @@ export default function QA() {
         <article className="product-card w-60 text-center bg-cyan-500 py-4 px-14 rounded-md">
             <img src="https://picsum.photos/200" className="h-52" />
             <h2 className="text-3xl">Simulate Custom 01</h2>
-            <button data-testid="custom_goal_01"
-              onClick={() => {
-                window.compose.dispatchEvent(new CustomEvent('goal:clicked_icon'))
-              }}
-            
-            >Recent View</button>
-
-
+            <button data-testid="custom_goal_01">Click Me</button>
         </article>
         {/* Custom 02 */}
         <article className="product-card w-60 text-center bg-cyan-500 py-4 px-14 rounded-md">

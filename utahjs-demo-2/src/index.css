@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #c98049;
+  color: white;
+}
+
+.BackImg {
+  background-image: url('/src/assets/hero-img.jpg');
+  background-position: center;
+  background-size: cover
+}
+
+:root {
+  --variant-a-display: none;
+  --variant-b-display: none;
+  --variant-c-display: none;
+}
+
+*[data-test-id="a"] {
+  display: var(--variant-a-display);
+}
+
+*[data-test-id="b"] {
+  display: var(--variant-b-display);
+}
+
+*[data-test-id="c"] {
+  display: var(--variant-c-display);
+}
+
+
+@layer components {
+  .btn-primary {
+    @apply bg-orange-400 text-center text-white px-6 py-1 uppercase tracking-wider
+  }
+}
