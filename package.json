@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "handlebars": "cd handlebars && npm run dev",
-    "react": "cd react && npm run dev",
-    "vue": "cd vue && npm run dev"
+    "handlebars": "cd handlebars && npm run parent-dev",
+    "react": "cd react && npm run parent-dev",
+    "vue": "cd vue && npm run parent-dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  }
 }
